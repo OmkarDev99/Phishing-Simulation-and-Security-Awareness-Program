@@ -45,5 +45,24 @@
     "scenario_portal": "Microsoft 365 Domain Single Sign-On",
     "ip_address": "192.168.56.101 (Isolated Lab Subnet)",
     "action_taken": "Logged for Demonstration & Redirected to Teachable Moment LMS"
+  },
+  {
+    "timestamp": "2026-10-21 01:54:23",
+    "event": "CREDENTIAL_SUBMISSION_INTERCEPT",
+    "target_email": "omkar121",
+    "submitted_password_demo": "121",
+    "scenario_portal": "University Student ERP & Academic Portal",
+    "mock_url": "http://student-portal.campus-erp.university-login.lab/auth",
+    "ip_address": "192.168.56.101 (Isolated Lab Subnet)",
+    "action_taken": "Logged for Demonstration & Redirected to Teachable Moment"
+  },
+  {
+    "timestamp": "2026-10-21 01:59:07",
+    "event": "CREDENTIAL_SUBMISSION_INTERCEPT",
+    "target_email": "employee@lab.internal",
+    "submitted_password_demo": "TestPassword999",
+    "scenario_portal": "HR Benefits Mobile Quick-Scan (Quishing Target)",
+    "ip_address": "127.0.0.1",
+    "action_taken": "Logged for Demonstration & Redirected to Teachable Moment LMS"
   }
 ]

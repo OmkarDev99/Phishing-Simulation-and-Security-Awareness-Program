@@ -9,6 +9,9 @@ import socketserver
 import os
 import sys
 import webbrowser
+import json
+import urllib.parse
+from datetime import datetime
 
 PORT = 5000
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -33,57 +36,98 @@ class PhishGuardHandler(http.server.SimpleHTTPRequestHandler):
 
         return super().translate_path(path)
 
+    def do_GET(self):
+        clean_path = self.path.split('?', 1)[0].split('#', 1)[0]
+        if clean_path == "/api/captured-credentials":
+            audit_file = os.path.join(BASE_DIR, "report", "simulation_audit_log.json")
+            logs = []
+            if os.path.exists(audit_file):
+                try:
+                    with open(audit_file, "r", encoding="utf-8") as f:
+                        logs = json.load(f)
+                except Exception:
+                    pass
+            response_bytes = json.dumps(logs).encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(response_bytes)))
+            self.end_headers()
+            self.wfile.write(response_bytes)
+            return
+
+        super().do_GET()
+
     def do_POST(self):
-        # Handle simulated credential submit
         length = int(self.headers.get('Content-Length', 0))
-        post_data = self.rfile.read(length).decode('utf-8')
-        print(f"[ETHICAL LAB INTERCEPT] POST received at {self.path}. Zero credentials stored.")
+        post_data = self.rfile.read(length).decode('utf-8') if length > 0 else ""
         
-        # Parse email if present
-        import urllib.parse
-        import json
-        from datetime import datetime
-        
-        parsed = urllib.parse.parse_qs(post_data)
-        captured_email = parsed.get('username', parsed.get('email', ['volunteer@lab.internal']))[0]
-        captured_pwd = parsed.get('password', ['[Not Provided]'])[0]
-        
+        captured_portal = "Web Phishing Portal"
+        captured_email = "student@lab.internal"
+        captured_pwd = "[Not Provided]"
+
+        content_type = self.headers.get('Content-Type', '')
+        if 'application/json' in content_type:
+            try:
+                data = json.loads(post_data)
+                captured_portal = data.get('portal', captured_portal)
+                captured_email = data.get('username', data.get('email', captured_email))
+                captured_pwd = data.get('password', captured_pwd)
+            except Exception:
+                pass
+        else:
+            parsed = urllib.parse.parse_qs(post_data)
+            captured_portal = parsed.get('portal', [captured_portal])[0]
+            captured_email = parsed.get('username', parsed.get('email', [captured_email]))[0]
+            captured_pwd = parsed.get('password', [captured_pwd])[0]
+
         audit_file = os.path.join(BASE_DIR, "report", "simulation_audit_log.json")
         demo_log_file = os.path.join(BASE_DIR, "report", "captured_credentials_demo.log")
         timestamp_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        audit_entry = {
+            "timestamp": timestamp_now,
+            "event": "CREDENTIAL_SUBMISSION_INTERCEPT",
+            "target_email": captured_email,
+            "submitted_password_demo": captured_pwd,
+            "scenario_portal": captured_portal,
+            "ip_address": self.client_address[0],
+            "action_taken": "Logged for Demonstration & Redirected to Teachable Moment LMS"
+        }
 
         try:
             logs = []
             if os.path.exists(audit_file):
                 with open(audit_file, "r", encoding="utf-8") as f:
                     logs = json.load(f)
-            logs.append({
-                "timestamp": timestamp_now,
-                "event": "CREDENTIAL_SUBMISSION_INTERCEPT",
-                "target_email": captured_email,
-                "submitted_password_demo": captured_pwd,
-                "scenario_portal": "Web Landing Page (" + self.path + ")",
-                "ip_address": self.client_address[0],
-                "action_taken": "Logged for Demonstration & Redirected to Teachable Moment LMS"
-            })
+            logs.append(audit_entry)
             with open(audit_file, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2)
             
             with open(demo_log_file, "a", encoding="utf-8") as f:
                 f.write("=" * 75 + "\n")
                 f.write(f"TIMESTAMP        : {timestamp_now}\n")
-                f.write(f"PORTAL / SCENARIO: Web Landing Page ({self.path})\n")
+                f.write(f"PORTAL / SCENARIO: {captured_portal}\n")
                 f.write(f"SUBMITTED EMAIL  : {captured_email}\n")
                 f.write(f"SUBMITTED PASS   : {captured_pwd}\n")
                 f.write(f"CLIENT IP        : {self.client_address[0]}\n")
                 f.write(f"SIMULATION STATUS: Captured by Lab Listener -> Redirected to Teachable Moment\n")
                 f.write("=" * 75 + "\n\n")
 
-            print(f"[+] Logged simulation capture for {captured_email} into report/captured_credentials_demo.log")
+            print(f"[+] [ATTACKER HARVESTER] Intercepted {captured_email} ({captured_portal}) -> saved to report/captured_credentials_demo.log")
         except Exception as e:
             print(f"[!] Error writing audit log: {e}")
 
-        # Redirect to educational page or return success JSON
+        # If API request, respond with JSON
+        if self.path.startswith('/api/'):
+            resp = json.dumps({"status": "captured", "entry": audit_entry}).encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(resp)))
+            self.end_headers()
+            self.wfile.write(resp)
+            return
+
+        # Fallback redirect to educational page
         self.send_response(303)
         self.send_header('Location', '/index.html#landing')
         self.end_headers()

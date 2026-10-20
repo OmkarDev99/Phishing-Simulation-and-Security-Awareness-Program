@@ -313,6 +313,46 @@
                     <!-- Landing page rendered here -->
                 </div>
             </div>
+
+            <!-- Attacker Harvested Credentials Report Feed -->
+            <div class="glass-card" style="margin-top:24px; border-left:4px solid var(--accent-rose);">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title" style="color:var(--accent-rose); font-size:17px;">
+                            🕵️ Attacker Live Credential Capture Feed (All 5 Phishing Portals)
+                        </h3>
+                        <p class="card-subtitle">
+                            Real-time listener feed capturing submissions from M365, Courier, ERP, Cloud Drive & Quishing &bull; Saved to <code style="color:var(--accent-amber);">report/captured_credentials_demo.log</code>
+                        </p>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span id="attackerTotalCapturedBadge" class="badge-lab" style="color:var(--accent-rose); font-size:12px;">
+                            Loading Log...
+                        </span>
+                        <button class="btn btn-secondary" onclick="LandingPages.loadCapturedCredentials()">
+                            🔄 Refresh Feed
+                        </button>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Phishing Vector / Target Portal</th>
+                                <th>Captured Email / PRN</th>
+                                <th>Captured Password</th>
+                                <th>Origin IP</th>
+                                <th>Permanent Log Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attackerFeedTbody">
+                            <!-- Dynamically loaded from /api/captured-credentials -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <!-- ================= TAB 4: AWARENESS TRAINING LMS & QUIZ ================= -->
@@ -549,11 +589,19 @@
                 <p style="font-size:13px; opacity:0.95; margin-top:4px;">You just submitted data on a simulated phishing portal: <span id="teachablePortalName" style="font-weight:bold;">Portal</span></p>
             </div>
             <div class="modal-body">
-                <div class="badge-lab" style="color:var(--accent-emerald); margin-bottom:16px; width:100%; justify-content:center; padding:10px;">
-                    🔒 Ethical Protection: ZERO REAL PASSWORDS STORED OR LOGGED
+                <div id="teachableCapturedCredsBox" style="background:#0b1120; border:1px solid var(--border-strong); border-radius:6px; padding:14px; margin-bottom:16px;">
+                    <div style="font-size:12px; font-weight:bold; color:var(--accent-rose); margin-bottom:6px;">
+                        🚨 ATTACKER CAPTURE INTERCEPT TELEMETRY:
+                    </div>
+                    <div style="font-size:13px; font-family:var(--font-mono); line-height:1.6;">
+                        <div><strong>Target Identity :</strong> <span id="teachableCapturedUser" style="color:var(--accent-cyan);">student@lab.internal</span></div>
+                        <div><strong>Submitted Pass  :</strong> <span id="teachableCapturedPass" style="color:var(--accent-amber); font-weight:bold;">••••••••</span></div>
+                        <div style="color:var(--accent-emerald); font-size:11px; margin-top:6px;">💾 Appended to disk file: <code>report/captured_credentials_demo.log</code></div>
+                    </div>
                 </div>
+
                 <p style="font-size:14px; line-height:1.6; color:var(--text-secondary); margin-bottom:16px;">
-                    Don't worry! This controlled simulation was conducted by <strong>Omkar Pardeshi (PRN: 25070122506)</strong>. In strict compliance with ethical hacking rules of engagement, only the submission event timestamp was recorded.
+                    This controlled academic simulation was conducted by <strong>Omkar Pardeshi (PRN: 25070122506)</strong> to demonstrate credential harvesting in social engineering attacks.
                 </p>
                 <h4 style="font-size:14px; color:var(--text-primary); margin-bottom:8px;">Key Red Flags You Missed:</h4>
                 <ul style="font-size:13px; color:var(--text-secondary); margin-left:20px; line-height:1.6; margin-bottom:20px;">

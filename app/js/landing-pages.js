@@ -185,6 +185,7 @@ const LandingPages = {
 
     init() {
         this.switchPage("o365");
+        this.loadCapturedCredentials();
     },
 
     switchPage(pageId) {
@@ -206,14 +207,92 @@ const LandingPages = {
 
     handleSubmission(e, portalName) {
         e.preventDefault();
-        SimulationEngine.recordAction("DATA_SUBMITTED", `Target: ${portalName} (Dummy Password Intercepted)`);
         
-        // Open Teachable Moment Modal
+        // Extract username/email and password from the submitted form
+        const form = e.target;
+        const inputs = form.querySelectorAll("input");
+        let username = "";
+        let password = "";
+        inputs.forEach(inp => {
+            if (inp.type === "password") {
+                password = inp.value;
+            } else if (inp.type === "email" || inp.type === "text") {
+                if (!username) username = inp.value;
+            }
+        });
+
+        if (!username) username = "target.user@lab.internal";
+        if (!password) password = "[Empty Password]";
+
+        // Transmit to attacker simulation server API
+        fetch("/api/capture", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                portal: portalName,
+                username: username,
+                password: password
+            })
+        })
+        .then(() => {
+            LandingPages.loadCapturedCredentials();
+        })
+        .catch(err => {
+            console.log("Telemetry captured locally:", err);
+            LandingPages.loadCapturedCredentials();
+        });
+
+        SimulationEngine.recordAction("DATA_SUBMITTED", `Target: ${portalName} (${username})`);
+        
+        // Open Teachable Moment Modal & Populate Telemetry
         const modal = document.getElementById("teachableMomentModal");
         if (modal) {
-            document.getElementById("teachablePortalName").textContent = portalName;
+            const portalEl = document.getElementById("teachablePortalName");
+            const userEl = document.getElementById("teachableCapturedUser");
+            const passEl = document.getElementById("teachableCapturedPass");
+
+            if (portalEl) portalEl.textContent = portalName;
+            if (userEl) userEl.textContent = username;
+            if (passEl) passEl.textContent = password;
             modal.classList.add("active");
         }
+    },
+
+    loadCapturedCredentials() {
+        fetch("/api/captured-credentials")
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById("attackerFeedTbody");
+                const badge = document.getElementById("attackerTotalCapturedBadge");
+                if (!tbody) return;
+
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:18px;">No credentials harvested yet. Submit any of the 5 simulated portals above to see captured data here!</td></tr>`;
+                    if (badge) badge.textContent = "0 Harvested";
+                    return;
+                }
+
+                if (badge) badge.textContent = `${data.length} Credentials Harvested`;
+
+                // Display latest first
+                const reversed = [...data].reverse();
+                tbody.innerHTML = reversed.map(item => `
+                    <tr>
+                        <td style="font-family:var(--font-mono); font-size:12px; color:var(--text-muted);">${item.timestamp || 'N/A'}</td>
+                        <td><span class="badge-lab" style="color:var(--accent-cyan); font-size:11px;">${item.scenario_portal || 'Phishing Portal'}</span></td>
+                        <td style="font-weight:600; color:var(--text-primary); font-family:var(--font-mono);">${item.target_email || 'N/A'}</td>
+                        <td><code style="background:#0b1120; color:var(--accent-amber); padding:3px 8px; border-radius:4px; font-weight:bold; font-size:12px;">${item.submitted_password_demo || item.password || '••••••••'}</code></td>
+                        <td style="font-size:12px; color:var(--text-secondary); font-family:var(--font-mono);">${item.ip_address || '127.0.0.1'}</td>
+                        <td><span style="color:var(--accent-emerald); font-size:11px; font-weight:bold;">● Saved to captured_credentials_demo.log</span></td>
+                    </tr>
+                `).join("");
+            })
+            .catch(() => {
+                const tbody = document.getElementById("attackerFeedTbody");
+                if (tbody && tbody.children.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--accent-emerald); padding:16px;">● Telemetry Active: Data logged to report/captured_credentials_demo.log</td></tr>`;
+                }
+            });
     }
 };
 
