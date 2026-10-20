@@ -36,5 +36,14 @@
     "scenario_portal": "Microsoft 365 Domain Single Sign-On",
     "ip_address": "192.168.56.101 (Isolated Lab Subnet)",
     "action_taken": "Logged for Demonstration & Redirected to Teachable Moment LMS"
+  },
+  {
+    "timestamp": "2026-10-21 01:15:20",
+    "event": "CREDENTIAL_SUBMISSION_INTERCEPT",
+    "target_email": "omkarpardeshi121@gmail.com",
+    "submitted_password_demo": "omkar121",
+    "scenario_portal": "Microsoft 365 Domain Single Sign-On",
+    "ip_address": "192.168.56.101 (Isolated Lab Subnet)",
+    "action_taken": "Logged for Demonstration & Redirected to Teachable Moment LMS"
   }
 ]

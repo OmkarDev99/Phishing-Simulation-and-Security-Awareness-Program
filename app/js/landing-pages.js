@@ -119,6 +119,67 @@ const LandingPages = {
                     </div>
                 `;
             }
+        },
+
+        "erp": {
+            title: "University Student ERP & Academic Examination Portal",
+            type: "Academic Identity Harvester Simulation",
+            render() {
+                return `
+                    <div style="background:#ffffff; color:#1e293b; max-width:460px; margin:20px auto; border-radius:8px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.3); font-family:Arial, sans-serif;">
+                        <div style="background:#0f172a; color:#f8fafc; padding:20px; border-bottom:3px solid #06b6d4;">
+                            <div style="font-size:12px; color:#38bdf8; font-weight:bold; letter-spacing:0.5px;">DEPARTMENT OF EXAMINATION</div>
+                            <h3 style="margin:4px 0 0; font-size:18px;">University Student Portal</h3>
+                        </div>
+                        <div style="padding:28px;">
+                            <div style="background:#f0fdf4; border-left:4px solid #16a34a; padding:10px 12px; margin-bottom:18px; font-size:12px; color:#15803d;">
+                                <strong>Exam Notice:</strong> Verify credentials to access Semester 5 Hall Ticket & Grades.
+                            </div>
+                            <form onsubmit="LandingPages.handleSubmission(event, 'University Student Portal / ERP')">
+                                <div style="margin-bottom:14px;">
+                                    <label style="display:block; font-size:12px; font-weight:bold; color:#475569; margin-bottom:4px;">PRN / Student Registration Number</label>
+                                    <input type="text" value="25070122506" required style="width:100%; padding:9px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                </div>
+                                <div style="margin-bottom:18px;">
+                                    <label style="display:block; font-size:12px; font-weight:bold; color:#475569; margin-bottom:4px;">Portal Password</label>
+                                    <input type="password" placeholder="Enter student portal password" required style="width:100%; padding:9px; border:1px solid #cbd5e1; border-radius:4px; font-size:13px;">
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="width:100%; padding:11px; font-weight:bold; border-radius:4px;">
+                                    Log In & View Hall Ticket
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+            }
+        },
+
+        "drive": {
+            title: "Cloud Drive Secure Document Viewer",
+            type: "Cloud Collaboration Harvester Simulation",
+            render() {
+                return `
+                    <div style="background:#ffffff; color:#202124; max-width:440px; margin:20px auto; border-radius:8px; padding:32px; box-shadow:0 10px 30px rgba(0,0,0,0.3); font-family:-apple-system, sans-serif; text-align:center;">
+                        <div style="font-size:32px; margin-bottom:8px;">📁</div>
+                        <h3 style="margin:0 0 4px; font-size:20px; font-weight:600;">Confidential Document Shared</h3>
+                        <p style="font-size:13px; color:#5f6368; margin-bottom:20px;">Sign in with your organization account to view "Q4_Internal_Financial_Report.pdf"</p>
+                        
+                        <form onsubmit="LandingPages.handleSubmission(event, 'Cloud Drive Document Share')" style="text-align:left;">
+                            <div style="margin-bottom:14px;">
+                                <label style="display:block; font-size:12px; font-weight:bold; color:#5f6368; margin-bottom:4px;">Corporate Email</label>
+                                <input type="email" value="omkar.pardeshi@lab.internal" required style="width:100%; padding:10px; border:1px solid #dadce0; border-radius:4px; font-size:14px;">
+                            </div>
+                            <div style="margin-bottom:20px;">
+                                <label style="display:block; font-size:12px; font-weight:bold; color:#5f6368; margin-bottom:4px;">Password</label>
+                                <input type="password" placeholder="Enter account password" required style="width:100%; padding:10px; border:1px solid #dadce0; border-radius:4px; font-size:14px;">
+                            </div>
+                            <button type="submit" class="btn" style="width:100%; background:#1a73e8; color:white; padding:11px; font-weight:bold; border-radius:4px;">
+                                Authenticate & Open Document
+                            </button>
+                        </form>
+                    </div>
+                `;
+            }
         }
     },
 

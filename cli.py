@@ -203,30 +203,67 @@ def inspect_email(sender_name, sender_email, subject, date, body, red_flags, sce
             print("  to confirm the destination, and never scan email QR codes to authenticate.")
             pause()
 
-# ================= MENU OPTION 3: LANDING PAGE & TEACHABLE MOMENT =================
-def simulate_landing_page(scenario_id):
+# ================= MENU OPTION 3: MULTI-SCENARIO LANDING PORTAL SIMULATOR =================
+def select_and_run_landing_page():
+    portals = {
+        "1": {
+            "name": "Corporate Microsoft 365 Single Sign-On",
+            "url": "http://login.microsoftonline.auth-verify.lab/sso",
+            "hook": "Urgent password rotation & SSO access retainment"
+        },
+        "2": {
+            "name": "Global Express Courier & Parcel Verification",
+            "url": "http://tracking.global-express.package-claim.lab/verify",
+            "hook": "Delivery address confirmation & parcel release code"
+        },
+        "3": {
+            "name": "University Student ERP & Academic Portal",
+            "url": "http://student-portal.campus-erp.university-login.lab/auth",
+            "hook": "Semester grade access & registration re-authentication"
+        },
+        "4": {
+            "name": "Cloud Drive Secure Document Share",
+            "url": "http://cloud-share.secure-docs-viewer.lab/access",
+            "hook": "Confidential corporate document verification prompt"
+        },
+        "5": {
+            "name": "Mobile HR Benefits Quick-Scan (Quishing Endpoint)",
+            "url": "http://hr-wellness.benefits-enrollment.lab/qr-scan",
+            "hook": "Annual healthcare election mobile authentication"
+        }
+    }
+
     print_banner()
-    if scenario_id == "o365":
-        portal_name = "Microsoft 365 Domain Single Sign-On"
-    elif scenario_id == "courier":
-        portal_name = "Global Express Address Verification Portal"
-    else:
-        portal_name = "Corporate Mobile Benefits QR Portal"
+    print(Fore.CYAN + Style.BRIGHT + "--- CHOOSE SIMULATED TARGET PHISHING PORTAL ---\n")
+    print(Fore.WHITE + "Select which attack scenario to simulate:\n")
+    for key, p in portals.items():
+        print(f"  {Fore.YELLOW}[{key}]{Fore.WHITE} {p['name']}")
+        print(f"      {Fore.MAGENTA}Mock URL : {Fore.RESET}{p['url']}")
+        print(f"      {Fore.CYAN}Pretext  : {Fore.RESET}{p['hook']}\n")
+    print(Fore.YELLOW + "  [0] " + Fore.WHITE + "Back to Main Menu\n")
 
-    print(Fore.RED + Style.BRIGHT + f"--- SIMULATED PHISHING LANDING PAGE: {portal_name} ---\n")
-    print(Fore.WHITE + "The attacker's clone login page has loaded in your browser.")
-    print(Fore.YELLOW + "Let's see what happens if an unsuspecting user tries to log in:\n")
+    p_choice = input(Fore.GREEN + "Enter scenario (0-5): " + Style.RESET_ALL).strip()
+    if p_choice == "0" or p_choice not in portals:
+        return
 
-    test_user = input(Fore.GREEN + "Enter email/username (e.g., student@lab.internal): " + Style.RESET_ALL).strip()
-    if not test_user: test_user = "volunteer@lab.internal"
+    selected = portals[p_choice]
+    simulate_landing_page(selected["name"], selected["url"])
+
+def simulate_landing_page(portal_name, mock_url):
+    print_banner()
+    print(Fore.CYAN + Style.BRIGHT + f"--- SIMULATED LANDING PORTAL: {portal_name.upper()} ---")
+    print(Fore.MAGENTA + f"Target URL: {mock_url}\n")
+
+    test_user = input(Fore.GREEN + "Enter target email / username: " + Style.RESET_ALL).strip()
+    if not test_user: test_user = "student@lab.internal"
     
-    test_pwd = input(Fore.GREEN + "Enter dummy password (any test text): " + Style.RESET_ALL).strip()
-    if not test_pwd: test_pwd = "dummyPassword123"
+    test_pwd = input(Fore.GREEN + "Enter target password: " + Style.RESET_ALL).strip()
+    if not test_pwd: test_pwd = "password123"
 
-    print(Fore.CYAN + "\n[*] Submitting credentials to server POST handler...")
+    print(Fore.CYAN + "\n[*] Intercepting POST request on simulation listener...")
     time.sleep(1)
 
-    # Log to physical audit and demo capture files on disk for evaluation and professor inspection
+    # Log to physical audit and demo capture files
     audit_file = os.path.join(os.path.dirname(__file__), "report", "simulation_audit_log.json")
     demo_log_file = os.path.join(os.path.dirname(__file__), "report", "captured_credentials_demo.log")
     import json
@@ -240,8 +277,9 @@ def simulate_landing_page(scenario_id):
         "target_email": test_user,
         "submitted_password_demo": test_pwd,
         "scenario_portal": portal_name,
+        "mock_url": mock_url,
         "ip_address": "192.168.56.101 (Isolated Lab Subnet)",
-        "action_taken": "Logged for Demonstration & Redirected to Teachable Moment LMS"
+        "action_taken": "Logged for Demonstration & Redirected to Teachable Moment"
     }
 
     try:
@@ -252,7 +290,7 @@ def simulate_landing_page(scenario_id):
         logs.append(audit_entry)
         with open(audit_file, "w", encoding="utf-8") as f:
             json.dump(logs, f, indent=2)
-    except Exception as e:
+    except Exception:
         pass
 
     try:
@@ -260,39 +298,28 @@ def simulate_landing_page(scenario_id):
             f.write("=" * 75 + "\n")
             f.write(f"TIMESTAMP        : {timestamp_str}\n")
             f.write(f"PORTAL / SCENARIO: {portal_name}\n")
+            f.write(f"MOCK URL TARGET  : {mock_url}\n")
             f.write(f"SUBMITTED EMAIL  : {test_user}\n")
             f.write(f"SUBMITTED PASS   : {test_pwd}\n")
-            f.write(f"LAB IP ADDRESS   : 192.168.56.101 (Isolated Host-Only)\n")
+            f.write(f"LAB IP ADDRESS   : 192.168.56.101 (Isolated Host-Only Subnet)\n")
             f.write(f"SIMULATION STATUS: Captured by Lab Listener -> Redirected to Teachable Moment\n")
             f.write("=" * 75 + "\n\n")
-    except Exception as e:
+    except Exception:
         pass
 
-    # Teachable Moment Intercept
-    print_banner()
-    print(Fore.YELLOW + Style.BRIGHT + "******************************************************************")
-    print(Fore.YELLOW + Style.BRIGHT + "       ⚠️ SIMULATED PHISHING INTERCEPT: TEACHABLE MOMENT ⚠️       ")
-    print(Fore.YELLOW + Style.BRIGHT + "******************************************************************\n")
-    print(Fore.GREEN + Style.BRIGHT + "🔒 ETHICAL SAFETY GUARANTEE: ZERO CREDENTIALS STORED!")
-    print(Fore.WHITE + "This was an authorized academic exercise run by " + Fore.CYAN + "Omkar Pardeshi (PRN: 25070122506)" + Fore.WHITE + ".")
-    print("In accordance with our strict Rules of Engagement (RoE):")
-    print(Fore.GREEN + "  • Your password was immediately discarded.")
-    print(Fore.GREEN + "  • Only the boolean timestamp of the submission event was recorded.")
-    print(Fore.GREEN + "  • No punitive actions or grading penalties apply.\n")
-
-    print(Fore.CYAN + Style.BRIGHT + "📁 WHERE IS THIS STORED IN OUR PROJECT? (SHOW YOUR PROFESSOR)")
-    print(Fore.WHITE + "  1. Formatted Demo Capture Log: " + Fore.YELLOW + Style.BRIGHT + "report/captured_credentials_demo.log")
-    print(Fore.WHITE + f"     Target Email Saved:         {Fore.GREEN}{test_user}")
-    print(Fore.WHITE + f"     Target Password Saved:      {Fore.YELLOW}{test_pwd}")
-    print(Fore.WHITE + "  2. Simulation Audit JSON:      " + Fore.YELLOW + "report/simulation_audit_log.json")
-    print(Fore.WHITE + "  3. Cohort Campaign Dataset:    " + Fore.YELLOW + "report/campaign_metrics.csv\n")
-
-    print(Fore.RED + Style.BRIGHT + "Why Did You Fall For It?")
-    print(Fore.WHITE + "  1. Lookalike Domain: The web address was an attacker proxy, not the official service.")
-    print(Fore.WHITE + "  2. Artificial Urgency: You acted quickly to avoid losing account access or goods.")
-    print(Fore.WHITE + "  3. Lack of MFA Binding: The portal lacked FIDO2 WebAuthn cryptographic verification.\n")
-
-    print(Fore.CYAN + "Next Step: Complete the Security Awareness Quiz to strengthen your threat detection skills!")
+    # Clean, concise Teachable Moment Intercept Display
+    print("\n" + Fore.YELLOW + Style.BRIGHT + "=" * 70)
+    print(Fore.GREEN + Style.BRIGHT + "[+] CREDENTIAL CAPTURED IN LAB DEMO LOG")
+    print(Fore.WHITE + f"    Timestamp : {Fore.WHITE}{timestamp_str}")
+    print(Fore.WHITE + f"    Portal    : {Fore.CYAN}{portal_name}")
+    print(Fore.WHITE + f"    Username  : {Fore.GREEN}{test_user}")
+    print(Fore.WHITE + f"    Password  : {Fore.YELLOW}{test_pwd}")
+    print(Fore.WHITE + f"    Saved To  : {Fore.YELLOW}report/captured_credentials_demo.log")
+    print(Fore.YELLOW + "-" * 70)
+    print(Fore.RED + Style.BRIGHT + "[!] TEACHABLE MOMENT INTERCEPT TRIGGERED")
+    print(Fore.WHITE + "    Reason    : User submitted credentials to lookalike domain (" + Fore.RED + mock_url.split('/')[2] + Fore.WHITE + ")")
+    print(Fore.WHITE + "    Outcome   : Metric recorded. User redirected to Security Awareness LMS.")
+    print(Fore.YELLOW + Style.BRIGHT + "=" * 70)
     pause()
 
 # ================= MENU OPTION 4: INTERACTIVE QUIZ =================
@@ -578,7 +605,7 @@ def main():
         elif choice == "2":
             run_inbox_simulator()
         elif choice == "3":
-            simulate_landing_page("o365")
+            select_and_run_landing_page()
         elif choice == "4":
             run_quiz_module()
         elif choice == "5":
