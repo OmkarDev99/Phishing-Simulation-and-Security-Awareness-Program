@@ -525,56 +525,7 @@ def show_metrics_and_cohort():
             print(Fore.CYAN + "-" * 75)
     pause()
 
-# ================= MENU OPTION 6: DEFENSIVE ARCHITECTURE =================
-def run_defense_inspector():
-    print_banner()
-    print(Fore.CYAN + Style.BRIGHT + "--- TECHNICAL DEFENSE SIMULATOR (SPF / DKIM / DMARC & FIDO2) ---\n")
-    print(Fore.WHITE + "Organizations must deploy Defense-in-Depth so technical controls stop attacks")
-    print("before they even reach the user's inbox.\n")
-
-    target_domain = input(Fore.GREEN + "Enter domain to inspect (or press Enter for 'secure-auth-alert.lab'): " + Style.RESET_ALL).strip()
-    if not target_domain:
-        target_domain = "secure-auth-alert.lab"
-
-    is_spoofed = any(x in target_domain for x in ["alert", "tracking", "login", "lab", "fake"])
-
-    print(Fore.CYAN + f"\n[*] Querying DNS records for {target_domain}...")
-    time.sleep(1)
-
-    print("\n" + Fore.YELLOW + "=" * 65)
-    print(Fore.WHITE + f"DNS AUTHENTICATION REPORT: {target_domain}")
-    print(Fore.YELLOW + "=" * 65)
-    
-    if is_spoofed:
-        print(Fore.RED + "STATUS: SPOOFED / UNALIGNED DOMAIN DETECTED\n")
-        print(Fore.WHITE + "1. SPF (RFC 7208):   " + Fore.RED + "FAIL / Softfail (~all)")
-        print("   Unauthorized sending IP address not listed in domain SPF record.")
-        print(Fore.WHITE + "2. DKIM (RFC 6376):  " + Fore.RED + "FAIL: No valid cryptographic selector found")
-        print(Fore.WHITE + "3. DMARC (RFC 7489): " + Fore.YELLOW + "p=none (Audit Only)\n")
-        print(Fore.RED + "Gateway Outcome with p=none:")
-        print("   The email passed through into the user's inbox because the domain lacked")
-        print("   a strict 'p=reject' policy. That is how our baseline simulation reached the inbox!")
-        print(Fore.GREEN + "\nDefensive Recommendation:")
-        print("   Enforce: v=DMARC1; p=reject; pct=100; rua=mailto:dmarc-reports@enterprise.com")
-        print("   With 'p=reject', receiving mail transfer agents (MTAs) drop this email at the boundary.")
-    else:
-        print(Fore.GREEN + "STATUS: VERIFIED ENTERPRISE DOMAIN\n")
-        print(Fore.WHITE + "1. SPF (RFC 7208):   " + Fore.GREEN + "PASS (v=spf1 ip4:192.168.56.0/24 -all)")
-        print(Fore.WHITE + "2. DKIM (RFC 6376):  " + Fore.GREEN + "PASS (2048-bit RSA Cryptographic Signature)")
-        print(Fore.WHITE + "3. DMARC (RFC 7489): " + Fore.GREEN + "PASS (p=reject, 100% Alignment)\n")
-        print(Fore.GREEN + "Gateway Outcome:")
-        print("   Any spoofed attempt claiming to be this domain will be rejected with 550 5.7.1.")
-
-    print(Fore.YELLOW + "\n" + "-" * 65)
-    print(Fore.WHITE + "PHISHING-RESISTANT MFA (FIDO2 / WEBAUTHN):")
-    print(Fore.WHITE + "Why does FIDO2 hardware keys defeat Adversary-in-the-Middle (AiTM) phishing?")
-    print(Fore.CYAN + "• SMS & Push OTP: Attackers proxy the 6-digit code to the real site in seconds.")
-    print(Fore.GREEN + "• FIDO2 Keys: The key cryptographically signs the browser's exact TLS origin.")
-    print("  If the website is a fake proxy (e.g. login.phish.lab), the hardware key refuses")
-    print("  to sign, rendering credential theft mathematically impossible.")
-    pause()
-
-# ================= MENU OPTION 7: LAUNCH WEB FRONTEND =================
+# ================= MENU OPTION 6: LAUNCH WEB FRONTEND =================
 def launch_web_frontend():
     print(Fore.CYAN + "\n[*] Opening Web GUI Portal at http://localhost:5000 in your browser...")
     webbrowser.open("http://localhost:5000")
@@ -586,16 +537,15 @@ def main():
     while True:
         print_banner()
         print(Fore.WHITE + Style.BRIGHT + "SELECT AN INTERACTIVE MODULE TO RUN IN THIS TERMINAL:\n")
-        print(Fore.YELLOW + "  [1] " + Fore.WHITE + "Project Overview & What This Project Is (Walkthrough)")
+        print(Fore.YELLOW + "  [1] " + Fore.WHITE + "Project Overview (Walkthrough & Empirical Results)")
         print(Fore.YELLOW + "  [2] " + Fore.WHITE + "Interactive Simulated Inbox (Inspect 3 Phishing Emails)")
-        print(Fore.YELLOW + "  [3] " + Fore.WHITE + "Phishing Landing Page & Teachable Moment Simulator")
-        print(Fore.YELLOW + "  [4] " + Fore.WHITE + "Interactive 10-Question Knowledge Exam & Certificate")
+        print(Fore.YELLOW + "  [3] " + Fore.WHITE + "Multi-Scenario Phishing Landing Simulator")
+        print(Fore.YELLOW + "  [4] " + Fore.WHITE + "Security Awareness Exam & Certificate")
         print(Fore.YELLOW + "  [5] " + Fore.WHITE + "Empirical Metrics & 25-Participant Cohort Data")
-        print(Fore.YELLOW + "  [6] " + Fore.WHITE + "Technical Defense Simulator (SPF, DKIM, DMARC, FIDO2)")
-        print(Fore.YELLOW + "  [7] " + Fore.CYAN + "Launch Modern Web GUI Portal (http://localhost:5000)")
+        print(Fore.YELLOW + "  [6] " + Fore.CYAN + "Launch Modern Web GUI Portal (http://localhost:5000)")
         print(Fore.YELLOW + "  [0] " + Fore.RED + "Exit Terminal Application\n")
 
-        choice = input(Fore.GREEN + Style.BRIGHT + "Enter your choice (0-7): " + Style.RESET_ALL).strip()
+        choice = input(Fore.GREEN + Style.BRIGHT + "Enter your choice (0-6): " + Style.RESET_ALL).strip()
 
         if choice == "0":
             print(Fore.CYAN + "\nThank you for exploring PhishGuard! Exiting...")
@@ -611,11 +561,9 @@ def main():
         elif choice == "5":
             show_metrics_and_cohort()
         elif choice == "6":
-            run_defense_inspector()
-        elif choice == "7":
             launch_web_frontend()
         else:
-            print(Fore.RED + "\nInvalid selection. Please choose an option from 0 to 7.")
+            print(Fore.RED + "\nInvalid selection. Please choose an option from 0 to 6.")
             time.sleep(1)
 
 if __name__ == "__main__":

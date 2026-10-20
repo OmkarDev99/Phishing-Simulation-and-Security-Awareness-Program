@@ -22,7 +22,7 @@ const App = {
         let initialTab = urlParams.get('tab') || window.location.hash.replace('#', '');
         if (initialTab === 'webmail') initialTab = 'inbox';
         
-        if (['dashboard', 'inbox', 'landing', 'training', 'analytics', 'defensive', 'report'].includes(initialTab)) {
+        if (['dashboard', 'inbox', 'landing', 'training', 'analytics'].includes(initialTab)) {
             this.showTab(initialTab);
         } else {
             this.showTab("dashboard");
