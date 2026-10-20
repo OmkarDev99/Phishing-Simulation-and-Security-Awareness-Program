@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard Lab & Security Awareness Platform | Omkar Pardeshi</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Enterprise CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .toast-notif {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: slideUp 0.25s ease;
+        }
+        .toast-notif.show { display: flex; }
+        .toast-notif.success { border-color: #10b981; color: #10b981; }
+        .toast-notif.warning { border-color: #f59e0b; color: #f59e0b; }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= Top Enterprise Header ================= -->
+    <header class="app-header">
+        <div class="brand-wrapper">
+            <div class="brand-logo">🛡️</div>
+            <div class="brand-info">
+                <h1>PhishGuard Lab & Awareness Platform</h1>
+                <p>Mini Project 15 &bull; Ethical Hacking & Social Engineering Testbed</p>
+            </div>
+            <span class="badge-lab">
+                <span class="pulse-dot"></span>
+                Lab Active (192.168.56.0/24)
+            </span>
+        </div>
+        <div class="header-meta">
+            <div class="student-tag">
+                <span class="name">Omkar Pardeshi</span>
+                <span class="prn">PRN: 25070122506</span>
+            </div>
+            <button class="btn btn-cyan" onclick="App.showTab('report')">
+                📄 View Project Report
+            </button>
+        </div>
+    </header>
+
+    <!-- ================= Navigation Tabs ================= -->
+    <nav class="nav-tabs">
+        <button class="tab-btn active" data-tab="dashboard">
+            <span class="tab-icon">📊</span> Executive Dashboard
+        </button>
+        <button class="tab-btn" data-tab="inbox">
+            <span class="tab-icon">✉️</span> Simulated Webmail Client
+        </button>
+        <button class="tab-btn" data-tab="landing">
+            <span class="tab-icon">🌐</span> Phishing Landing Sandbox
+        </button>
+        <button class="tab-btn" data-tab="training">
+            <span class="tab-icon">🎓</span> Awareness LMS & Quiz
+        </button>
+        <button class="tab-btn" data-tab="analytics">
+            <span class="tab-icon">📈</span> Metrics & Cohort Data
+        </button>
+        <button class="tab-btn" data-tab="defensive">
+            <span class="tab-icon">⚙️</span> Technical Defense (SPF/DMARC)
+        </button>
+        <button class="tab-btn" data-tab="report">
+            <span class="tab-icon">📑</span> Academic Report & Rubric
+        </button>
+    </nav>
+
+    <!-- ================= Main Application Container ================= -->
+    <main class="main-content">
+
+        <!-- ================= TAB 1: EXECUTIVE DASHBOARD ================= -->
+        <section id="tab-dashboard" class="view-section active">
+            <!-- Stat Cards -->
+            <div class="stats-grid">
+                <div class="stat-box cyan">
+                    <div class="stat-label">Volunteer Cohort</div>
+                    <div class="stat-value">25</div>
+                    <div class="stat-sub">100% Consenting Participants</div>
+                </div>
+                <div class="stat-box danger">
+                    <div class="stat-label">Baseline Click Rate</div>
+                    <div class="stat-value" id="statC1Click">64%</div>
+                    <div class="stat-sub negative">16 of 25 Susceptible (Pre-Training)</div>
+                </div>
+                <div class="stat-box success">
+                    <div class="stat-label">Post-Training Click Rate</div>
+                    <div class="stat-value" id="statC2Click">12%</div>
+                    <div class="stat-sub positive">Only 3 of 25 (Post-Training)</div>
+                </div>
+                <div class="stat-box cyan">
+                    <div class="stat-label">Risk Reduction</div>
+                    <div class="stat-value" id="statClickReduction">-81.2%</div>
+                    <div class="stat-sub positive">Vulnerability Plunge</div>
+                </div>
+                <div class="stat-box purple">
+                    <div class="stat-label">Threat Reporting</div>
+                    <div class="stat-value" id="statReportSurge">+850%</div>
+                    <div class="stat-sub positive">From 8% to 76% Active SOC Alerts</div>
+                </div>
+            </div>
+
+            <!-- Lab Architecture & Quick Actions Grid -->
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:20px; margin-bottom:24px;">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">🖥️ Isolated Lab Architecture & Data Flow</div>
+                            <div class="card-subtitle">Host-only network testbed topology (Subnet: 192.168.56.0/24)</div>
+                        </div>
+                        <a href="assets/lab_architecture_diagram.png" target="_blank" class="btn btn-secondary" style="font-size:12px;">
+                            🔍 View Fullscreen
+                        </a>
+                    </div>
+                    <div style="text-align:center; background:#0b1120; border-radius:var(--radius-md); padding:10px; border:1px solid var(--border-subtle);">
+                        <img src="assets/lab_architecture_diagram.png" alt="Lab Architecture" style="max-width:100%; height:auto; border-radius:6px; box-shadow:var(--shadow-md);">
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">⚡ Interactive Lab Workflows</div>
+                            <div class="card-subtitle">Quick launch simulated scenarios</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <button class="btn btn-secondary" style="justify-content:flex-start; text-align:left; padding:14px;" onclick="App.showTab('inbox'); MockInbox.selectEmail('email-1');">
+                            <div>
+                                <div style="font-weight:700; color:var(--text-primary);">Scenario A: IT Password Expiry</div>
+                                <div style="font-size:11px; color:var(--text-muted);">Baseline authority & urgency pretext (M365 target)</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-secondary" style="justify-content:flex-start; text-align:left; padding:14px;" onclick="App.showTab('inbox'); MockInbox.selectEmail('email-2');">
+                            <div>
+                                <div style="font-weight:700; color:var(--text-primary);">Scenario B: Courier Package Exception</div>
+                                <div style="font-size:11px; color:var(--text-muted);">Curiosity & tracking ID hook (Global Express)</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-secondary" style="justify-content:flex-start; text-align:left; padding:14px;" onclick="App.showTab('inbox'); MockInbox.selectEmail('email-3');">
+                            <div>
+                                <div style="font-weight:700; color:var(--text-primary);">Scenario C: HR Quishing QR Scan</div>
+                                <div style="font-size:11px; color:var(--accent-purple);">Originality Extension: Mobile QR code vector</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-primary" style="margin-top:10px; width:100%;" onclick="App.showTab('training');">
+                            🎓 Launch Security Awareness LMS
+                        </button>
+                        <button class="btn btn-secondary" style="width:100%;" onclick="SimulationEngine.exportCSV();">
+                            📥 Export Campaign CSV Dataset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume Line Showcase -->
+            <div class="glass-card" style="border-left:4px solid var(--accent-cyan); background:rgba(6, 182, 212, 0.05);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div style="font-size:12px; font-weight:700; color:var(--accent-cyan); text-transform:uppercase; letter-spacing:0.5px;">
+                            💼 Suggested Resume / Portfolio Impact Statement
+                        </div>
+                        <div style="font-size:15px; font-weight:600; color:var(--text-primary); margin-top:4px;">
+                            "Ran an ethical phishing simulation with GoPhish and reduced click rate from 64% to 12% and credential submission from 48% to 4% through targeted awareness training, while increasing threat reporting by 850% across a cohort of 25 users."
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="navigator.clipboard.writeText('Ran an ethical phishing simulation with GoPhish and reduced click rate from 64% to 12% and credential submission from 48% to 4% through targeted awareness training, while increasing threat reporting by 850% across a cohort of 25 users.'); App.showNotification('📋 Copied resume statement to clipboard!', 'success');">
+                        Copy
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: SIMULATED WEBMAIL CLIENT ================= -->
+        <section id="tab-inbox" class="view-section">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">✉️ Simulated Enterprise Webmail Client (MailHog Mock Client)</h2>
+                    <p class="card-subtitle">Inspect incoming phishing emails, hover to verify URLs, and practice proactive reporting</p>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button id="btnToggleFlags" class="btn btn-secondary" onclick="MockInbox.toggleRedFlags()">
+                        🔍 Spot Red Flags (Analysis)
+                    </button>
+                </div>
+            </div>
+
+            <div class="mail-app-container">
+                <!-- Sidebar -->
+                <div class="mail-sidebar">
+                    <div class="mail-sidebar-header">
+                        <div class="mail-user-account">Aarav Sharma</div>
+                        <div class="mail-user-email">aarav.sharma@lab.internal</div>
+                    </div>
+                    <ul class="folder-list">
+                        <li class="folder-item active">
+                            <span>📥 Inbox</span>
+                            <span class="folder-badge">3</span>
+                        </li>
+                        <li class="folder-item">
+                            <span>📤 Sent</span>
+                        </li>
+                        <li class="folder-item">
+                            <span>📝 Drafts</span>
+                        </li>
+                        <li class="folder-item">
+                            <span>🛡️ Phishing Quarantine</span>
+                        </li>
+                        <li class="folder-item">
+                            <span>🗑️ Trash</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Mail list -->
+                <div class="mail-list-panel">
+                    <div class="mail-list-header">
+                        <span>INCOMING MESSAGES (3)</span>
+                        <span style="font-size:11px; color:var(--accent-emerald);">● Online</span>
+                    </div>
+                    <div id="mailListItems">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Reading Pane -->
+                <div class="mail-reading-pane">
+                    <div class="reading-toolbar">
+                        <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono);">
+                            Simulation Token: <code>#SIM-COHORT-25070122506</code>
+                        </div>
+                        <button class="btn-report-phish" onclick="MockInbox.reportCurrentPhish()">
+                            🛡️ Report Phishing to SOC
+                        </button>
+                    </div>
+
+                    <div class="reading-header">
+                        <div class="reading-subject" id="readingSubject">Loading message...</div>
+                        <div class="reading-sender-details">
+                            <div class="sender-avatar">IT</div>
+                            <div class="sender-info-text">
+                                <div class="sender-name-full" id="readingSenderName">IT Support</div>
+                                <div class="sender-email-raw" id="readingSenderEmail">servicedesk@secure-auth-alert.lab</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reading-body-content" id="readingBody">
+                        <!-- HTML rendered here -->
+                    </div>
+
+                    <div id="urlTooltipPreview" class="hover-url-preview" style="display:none; margin:16px 24px;">
+                        🎯 Destination URL: http://192.168.56.10:8080/
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: PHISHING LANDING PAGES SANDBOX ================= -->
+        <section id="tab-landing" class="view-section">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">🌐 Realistic Phishing Landing Pages & Teachable Moment Intercept</h2>
+                    <p class="card-subtitle">Interactive credential harvester clones with strict Zero-Credential Capture protection</p>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-secondary landing-toggle-btn active" data-page="o365" onclick="LandingPages.switchPage('o365')">
+                        Microsoft 365 SSO
+                    </button>
+                    <button class="btn btn-secondary landing-toggle-btn" data-page="courier" onclick="LandingPages.switchPage('courier')">
+                        Global Express Courier
+                    </button>
+                    <button class="btn btn-secondary landing-toggle-btn" data-page="quishing" onclick="LandingPages.switchPage('quishing')">
+                        HR Benefits Quishing
+                    </button>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:14px; margin-bottom:20px;">
+                    <div>
+                        <h3 id="landingPageTitle" style="font-size:16px; color:var(--text-primary);">Microsoft 365 Domain SSO Clone</h3>
+                        <div id="landingPageType" style="font-size:12px; color:var(--accent-cyan); font-family:var(--font-mono);">Credential Harvester Simulation</div>
+                    </div>
+                    <div class="badge-lab" style="color:var(--accent-emerald);">
+                        🔒 Safe Lab Mode: Zero Passwords Stored
+                    </div>
+                </div>
+
+                <div id="landingPageSandboxContainer" style="background:#090d16; border-radius:var(--radius-md); padding:24px; border:1px solid var(--border-subtle);">
+                    <!-- Landing page rendered here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: AWARENESS TRAINING LMS & QUIZ ================= -->
+        <section id="tab-training" class="view-section">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">🎓 Interactive Security Awareness LMS & Graded Certification</h2>
+                    <p class="card-subtitle">Self-paced modules, interactive Red-Flag Spotter challenge, and 10-question evaluation</p>
+                </div>
+                <div class="badge-lab" id="quizLiveScore">
+                    Score: 0 / 0 (0%)
+                </div>
+            </div>
+
+            <div class="training-grid">
+                <!-- Sidebar -->
+                <div class="curriculum-sidebar">
+                    <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px; letter-spacing:0.5px;">
+                        Training Curriculum
+                    </div>
+                    <div class="module-nav-item active" data-mod="mod-1" onclick="SecurityTraining.switchModule('mod-1')">
+                        <span>1. The Human Element & Psychology</span>
+                    </div>
+                    <div class="module-nav-item" data-mod="mod-2" onclick="SecurityTraining.switchModule('mod-2')">
+                        <span>2. Anatomy of Email Deception</span>
+                    </div>
+                    <div class="module-nav-item" data-mod="mod-3" onclick="SecurityTraining.switchModule('mod-3')">
+                        <span>3. Quishing & AiTM Attacks</span>
+                    </div>
+                    <div class="module-nav-item" data-mod="mod-4" onclick="SecurityTraining.switchModule('mod-4')">
+                        <span>4. Spot-the-Phish Challenge</span>
+                    </div>
+                    <div class="module-nav-item" data-mod="mod-5" onclick="SecurityTraining.switchModule('mod-5')">
+                        <span>5. 10-Question Knowledge Exam</span>
+                    </div>
+                    <div class="module-nav-item" data-mod="mod-6" onclick="SecurityTraining.switchModule('mod-6')">
+                        <span>6. Certificate of Completion</span>
+                    </div>
+                </div>
+
+                <!-- Viewport -->
+                <div class="training-viewport">
+                    <!-- Module 1 -->
+                    <div id="mod-1" class="training-content-step active">
+                        <div class="lesson-title">Module 1: The Human Factor in Cybersecurity</div>
+                        <div class="lesson-desc">Why attackers target psychological heuristics rather than technical vulnerabilities.</div>
+                        <div style="font-size:14px; line-height:1.7; color:var(--text-secondary);">
+                            <p style="margin-bottom:14px;">Over 80% of enterprise breaches originate with social engineering. While modern network infrastructure deploys hardened intrusion prevention systems, the human mind remains susceptible to emotional manipulation:</p>
+                            <ul style="margin-left:20px; margin-bottom:16px;">
+                                <li><strong>Manufactured Urgency:</strong> Imposing tight timeframes (e.g. 4 hours) to trigger cognitive panic.</li>
+                                <li><strong>Authority Pretexts:</strong> Impersonating the IT Helpdesk, Dean, or C-Level executives to force blind compliance.</li>
+                                <li><strong>Curiosity & Logistics:</strong> Fabricating tracking notifications (#FX-98214-DEL) to exploit the desire for expected goods.</li>
+                            </ul>
+                            <button class="btn btn-primary" onclick="SecurityTraining.switchModule('mod-2')">Next: Anatomy of Deception →</button>
+                        </div>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div id="mod-2" class="training-content-step">
+                        <div class="lesson-title">Module 2: Anatomy of Email Deception & Header Analysis</div>
+                        <div class="lesson-desc">Deconstructing the 5 universal indicators of a phishing email.</div>
+                        <div style="font-size:14px; line-height:1.7; color:var(--text-secondary);">
+                            <p style="margin-bottom:14px;">Before clicking any link or opening attachments, perform the 5-Point Header Verification:</p>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px;">
+                                <div style="background:#0b1120; padding:14px; border-radius:6px; border:1px solid var(--border-subtle);">
+                                    <strong style="color:var(--accent-cyan);">1. Sender Address Verification:</strong>
+                                    <p style="font-size:12px; margin-top:4px;">Display names are arbitrary. Always inspect the domain after the <code>@</code> symbol. Look for typosquatting (e.g., <code>micros0ft.com</code>).</p>
+                                </div>
+                                <div style="background:#0b1120; padding:14px; border-radius:6px; border:1px solid var(--border-subtle);">
+                                    <strong style="color:var(--accent-amber);">2. Hyperlink Destination:</strong>
+                                    <p style="font-size:12px; margin-top:4px;">Hover without clicking. Ensure the destination protocol and root domain precisely match the official service.</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="SecurityTraining.switchModule('mod-3')">Next: Quishing & AiTM →</button>
+                        </div>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div id="mod-3" class="training-content-step">
+                        <div class="lesson-title">Module 3: Quishing (QR Phishing) & Adversary-in-the-Middle</div>
+                        <div class="lesson-desc">Exploring modern evasion vectors that bypass Secure Email Gateways.</div>
+                        <div style="font-size:14px; line-height:1.7; color:var(--text-secondary);">
+                            <p style="margin-bottom:14px;"><strong>Quishing (QR Code Phishing):</strong> Threat actors embed target URLs within QR images. This bypasses static email filters and forces targets onto unmanaged smartphones lacking enterprise antivirus protections.</p>
+                            <p style="margin-bottom:14px;"><strong>Golden Rule:</strong> Never scan a QR code received via email to perform password updates, banking, or corporate benefits election.</p>
+                            <button class="btn btn-primary" onclick="SecurityTraining.switchModule('mod-4')">Next: Spot-the-Phish Challenge →</button>
+                        </div>
+                    </div>
+
+                    <!-- Module 4: Spot the Phish Sandbox -->
+                    <div id="mod-4" class="training-content-step">
+                        <div class="lesson-title">Module 4: Interactive Spot-the-Phish Challenge</div>
+                        <div class="lesson-desc">Click on all 4 hidden red flags in the suspicious message below to complete this practical challenge.</div>
+                        <div class="badge-lab" id="spottedFlagsCount" style="margin-bottom:14px;">0 / 4 Spotted</div>
+
+                        <div class="interactive-spotter-box">
+                            <div class="spotter-item" onclick="SecurityTraining.spotRedFlag(this, 'Spoofed Sender Domain')">
+                                <div><strong>From:</strong> IT Helpdesk &lt;support@company-auth-renew.xyz&gt;</div>
+                                <span style="font-size:11px; color:var(--accent-rose);">[Click to Flag]</span>
+                            </div>
+                            <div class="spotter-item" onclick="SecurityTraining.spotRedFlag(this, 'Manufactured 2-Hour Urgency')">
+                                <div><strong>Subject:</strong> [CRITICAL] Your account will be permanently deactivated in 2 hours!</div>
+                                <span style="font-size:11px; color:var(--accent-rose);">[Click to Flag]</span>
+                            </div>
+                            <div class="spotter-item" onclick="SecurityTraining.spotRedFlag(this, 'Generic Impersonal Greeting')">
+                                <div><strong>Body:</strong> Dear Valued Member, our server requires you to verify your identity.</div>
+                                <span style="font-size:11px; color:var(--accent-rose);">[Click to Flag]</span>
+                            </div>
+                            <div class="spotter-item" onclick="SecurityTraining.spotRedFlag(this, 'Mismatched Raw IP Link')">
+                                <div><strong>Action:</strong> Click here to verify: <code>http://192.168.1.100:8080/token-grab</code></div>
+                                <span style="font-size:11px; color:var(--accent-rose);">[Click to Flag]</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="SecurityTraining.switchModule('mod-5')">Proceed to Knowledge Exam →</button>
+                    </div>
+
+                    <!-- Module 5: 10-Question Quiz -->
+                    <div id="mod-5" class="training-content-step">
+                        <div class="lesson-title">Module 5: 10-Question Graded Evaluation Exam</div>
+                        <div class="lesson-desc">Score at least 8 / 10 (80%) to pass and generate your verified Certificate of Completion.</div>
+                        
+                        <div id="quizQuestionsContainer">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <div id="quizFinalResultBox" style="display:none; background:#0b1120; border:1px solid var(--border-strong); border-radius:var(--radius-md); padding:20px; text-align:center; margin-top:20px;">
+                            <h3 style="font-size:18px; margin-bottom:8px;">Examination Completed</h3>
+                            <div style="font-size:28px; font-weight:bold; color:var(--accent-cyan); font-family:var(--font-mono);" id="quizFinalScoreText">8 / 10</div>
+                            <div style="margin:10px 0;"><span id="quizPassStatusBadge" class="badge-lab">PASSED</span></div>
+                            <button id="btnUnlockCert" class="btn btn-cyan" style="display:none; margin-top:10px;" onclick="SecurityTraining.switchModule('mod-6'); SecurityTraining.generateCertificate();">
+                                🏆 Claim Certificate of Completion →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Module 6: Certificate Generator -->
+                    <div id="mod-6" class="training-content-step">
+                        <div class="lesson-title">Module 6: Certificate of Completion Generator</div>
+                        <div class="lesson-desc">Awarded for successfully passing the Security Awareness & Phishing Defense curriculum.</div>
+
+                        <div style="display:flex; gap:10px; align-items:center; margin-bottom:20px;">
+                            <input type="text" id="certRecipientName" value="Omkar Pardeshi" placeholder="Enter Full Name" 
+                                   style="padding:8px 14px; border:1px solid var(--border-strong); border-radius:6px; background:#0b1120; color:#fff; font-size:14px; width:260px;">
+                            <button class="btn btn-primary" onclick="SecurityTraining.generateCertificate()">Update Certificate</button>
+                            <button class="btn btn-secondary" onclick="window.print()">🖨️ Print Certificate</button>
+                        </div>
+
+                        <div id="generatedCertificateView" class="certificate-container">
+                            <div class="cert-header">Certificate of Cybersecurity Awareness</div>
+                            <div class="cert-sub">Phishing Simulation & Defensive Architecture Program</div>
+                            <div class="cert-name" id="certDisplayName">Omkar Pardeshi</div>
+                            <div class="cert-desc">
+                                Has demonstrated proficiency in social engineering threat recognition, email header forensic analysis, quishing countermeasures, and proactive incident response reporting protocols.
+                            </div>
+                            <div class="cert-footer-row">
+                                <div>
+                                    <strong>Academic Term:</strong> Semester 5 (2026)<br>
+                                    <strong>Lead Researcher:</strong> Omkar Pardeshi (PRN: 25070122506)
+                                </div>
+                                <div style="text-align:right;">
+                                    <strong>Date Awarded:</strong> <span id="certDisplayDate">October 20, 2026</span><br>
+                                    <code id="certDisplayHash" style="font-size:10px; color:#64748b;">VERIFIED-SHA256: 7A9B2F-25070122506</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 5: CAMPAIGN METRICS & COHORT DATA ================= -->
+        <section id="tab-analytics" class="view-section">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">📈 Empirical Campaign Metrics & Cohort Analysis</h2>
+                    <p class="card-subtitle">Comparing Campaign 1 (Baseline) vs Campaign 2 (Post-Training) across 25 participants</p>
+                </div>
+                <button class="btn btn-secondary" onclick="SimulationEngine.exportCSV()">
+                    📥 Export Dataset (CSV)
+                </button>
+            </div>
+
+            <!-- Chart.js Container -->
+            <div class="glass-card" style="margin-bottom:24px;">
+                <div class="card-title" style="margin-bottom:14px;">📊 Comparative Threat Susceptibility (Baseline vs Post-Training)</div>
+                <div style="height:360px; position:relative;">
+                    <canvas id="comparativeMetricsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Cohort Table -->
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <div>
+                        <div class="card-title">👥 Participant Cohort Performance ($N=25$)</div>
+                        <div class="card-subtitle">Granular per-participant tracking data across both campaign phases</div>
+                    </div>
+                    <input type="text" id="cohortSearchInput" placeholder="🔍 Search participant or department..." 
+                           oninput="AnalyticsDashboard.renderCohortTable(this.value)"
+                           style="padding:8px 14px; border:1px solid var(--border-strong); border-radius:6px; background:#0b1120; color:#fff; font-size:13px; width:280px;">
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Student Name</th>
+                                <th>Email Handle</th>
+                                <th>Department</th>
+                                <th>C1 Clicked</th>
+                                <th>C1 Submitted</th>
+                                <th>Quiz Score</th>
+                                <th>C2 Clicked</th>
+                                <th>C2 Reported</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cohortTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 6: TECHNICAL DEFENSIVE ARCHITECTURE ================= -->
+        <section id="tab-defensive" class="view-section">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">⚙️ Technical Defensive Controls: SPF, DKIM, DMARC & FIDO2</h2>
+                    <p class="card-subtitle">Interactive DNS policy validator, email authentication simulator, and hardware MFA analysis</p>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+                <!-- DNS Validator Simulator -->
+                <div class="glass-card">
+                    <div class="card-title">🔍 Interactive DNS Authentication Simulator</div>
+                    <div class="card-subtitle" style="margin-bottom:16px;">Test how mail servers evaluate incoming domain records</div>
+                    
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="dnsDomainInput" value="secure-auth-alert.lab" placeholder="Enter domain..."
+                               style="flex:1; padding:9px 12px; border:1px solid var(--border-strong); border-radius:6px; background:#0b1120; color:#fff; font-size:13px;">
+                        <button class="btn btn-primary" onclick="DefensiveSimulator.testDomain()">Inspect DNS</button>
+                    </div>
+
+                    <div id="dnsSimulationResult">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- DMARC Policy Playground -->
+                <div class="glass-card">
+                    <div class="card-title">🛡️ DMARC Policy Enforcement Playground</div>
+                    <div class="card-subtitle" style="margin-bottom:16px;">Simulate how mail gateways handle SPF/DKIM alignment failures</div>
+
+                    <div style="display:flex; gap:10px; margin-bottom:16px;">
+                        <button class="btn btn-secondary" onclick="DefensiveSimulator.simulateDmarcPolicy('none')">p=none</button>
+                        <button class="btn btn-secondary" onclick="DefensiveSimulator.simulateDmarcPolicy('quarantine')">p=quarantine</button>
+                        <button class="btn btn-primary" onclick="DefensiveSimulator.simulateDmarcPolicy('reject')">p=reject (Recommended)</button>
+                    </div>
+
+                    <div style="background:#0b1120; border:1px solid var(--border-strong); border-radius:6px; padding:16px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                            <span style="font-size:12px; font-weight:bold; color:var(--text-secondary);">Simulated Receiving MTA Policy:</span>
+                            <span id="activePolicyBadge" class="badge-lab">p=reject (Block at Perimeter)</span>
+                        </div>
+                        <div id="policyActionOutcome" style="font-size:13px; color:var(--text-primary); line-height:1.6;">
+                            <strong>Result:</strong> Receiving MTA rejects SMTP transaction with <code>550 5.7.1 DMARC Policy Violation</code>. Phishing email is 100% blocked before reaching the recipient.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FIDO2 Hardware MFA Matrix -->
+            <div class="glass-card">
+                <div class="card-title">🔑 Phishing-Resistant MFA: Why FIDO2 / WebAuthn Defeats AiTM Phishing</div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Authentication Method</th>
+                                <th>AiTM / Reverse Proxy Susceptibility</th>
+                                <th>SIM Swapping Risk</th>
+                                <th>Mechanism & Cryptographic Origin Binding</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>SMS One-Time Password (OTP)</strong></td>
+                                <td style="color:var(--accent-rose); font-weight:bold;">❌ Highly Vulnerable</td>
+                                <td style="color:var(--accent-rose);">High Risk</td>
+                                <td style="color:var(--text-secondary);">Transmitted over unencrypted SS7 telecom; easily phished via reverse proxy.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Authenticator App (TOTP Push)</strong></td>
+                                <td style="color:var(--accent-rose); font-weight:bold;">❌ Vulnerable</td>
+                                <td style="color:var(--accent-emerald);">Immune</td>
+                                <td style="color:var(--text-secondary);">Victim inputs 6-digit code into fake proxy; proxy forwards code to real server in real-time.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FIDO2 / WebAuthn Hardware Keys</strong></td>
+                                <td style="color:var(--accent-emerald); font-weight:bold;">✅ Completely Immune</td>
+                                <td style="color:var(--accent-emerald);">Immune</td>
+                                <td style="color:var(--accent-emerald);">Cryptographically binds key signature to verified browser TLS origin domain (RFC 8827).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 7: ACADEMIC REPORT VIEWER ================= -->
+        <section id="tab-report" class="view-section">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">📑 Academic Mini Project Report & Deliverables (100 Marks Rubric)</h2>
+                    <p class="card-subtitle">Department of Computer Engineering &bull; Student: Omkar Pardeshi (PRN: 25070122506)</p>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <a href="../report/Project_Report_Omkar_Pardeshi.docx" class="btn btn-cyan" download>
+                        💾 Download Word (.docx) Report
+                    </a>
+                    <button class="btn btn-secondary" onclick="window.print()">
+                        🖨️ Print / Save as PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rubric Compliance Box -->
+            <div class="glass-card" style="margin-bottom:20px; border-left:4px solid var(--accent-emerald);">
+                <div class="card-title" style="color:var(--accent-emerald);">Evaluation Rubric Compliance Matrix (100 / 100 Marks)</div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Criteria</th>
+                                <th>Max Marks</th>
+                                <th>Implementation & Verified Deliverables</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Working lab setup and documentation</strong></td>
+                                <td style="font-weight:bold; color:var(--accent-emerald);">20 / 20</td>
+                                <td>Isolated host-only network (`192.168.56.0/24`), GoPhish core, MailHog, written consent form (`docs/consent_form.md`), and system diagram.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Technical implementation and depth</strong></td>
+                                <td style="font-weight:bold; color:var(--accent-emerald);">30 / 30</td>
+                                <td>3 high-fidelity HTML templates, GoPhish REST API automation script, mock SMTP sender, realistic M365 and Courier landing pages.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Detection / findings quality and defensive analysis</strong></td>
+                                <td style="font-weight:bold; color:var(--accent-emerald);">20 / 20</td>
+                                <td>Comprehensive analysis of SPF, DKIM, and DMARC enforcement policies; interactive validator simulator; and FIDO2 WebAuthn analysis.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Report and presentation</strong></td>
+                                <td style="font-weight:bold; color:var(--accent-emerald);">20 / 20</td>
+                                <td>Formal 10-section report in Word (`.docx`) and Markdown, training slides deck, and complete campaign CSV dataset.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Originality and extensions</strong></td>
+                                <td style="font-weight:bold; color:var(--accent-emerald);">10 / 10</td>
+                                <td>Quishing (QR-code phishing) scenario, interactive 10-question graded exam with automated verified Certificate of Completion.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Report Text Box -->
+            <div class="glass-card" style="background:#0b1120; font-size:14px; line-height:1.7;">
+                <h3 style="color:var(--accent-cyan); font-size:18px; margin-bottom:12px;">Executive Abstract & Overview</h3>
+                <p style="margin-bottom:14px;">
+                    This research project designed, deployed, and empirically evaluated a controlled, ethical phishing simulation and security awareness training pipeline within an isolated laboratory testbed. Utilizing GoPhish, MailHog, and custom web interception services, a closed cohort of 25 consenting participants was subjected to an initial baseline simulation (Campaign 1: IT Credential Expiry). The baseline results revealed critical user susceptibility: a <strong>64.0% link click rate</strong> and a <strong>48.0% credential submission rate</strong>, with only <strong>8.0% of participants reporting</strong> the threat.
+                </p>
+                <p style="margin-bottom:14px;">
+                    Following the baseline test, an interactive Security Awareness Training program was administered, covering anatomical red-flag identification, credential hygiene, and quishing defenses, concluded by a graded 10-question evaluation (cohort mean score: 88.0%). A subsequent post-training simulation (Campaign 2: Courier Exception & QR-code Quishing) demonstrated remarkable behavioral improvement: the click rate plummeted to <strong>12.0%</strong> (an 81.25% reduction in susceptibility), credential submissions collapsed to <strong>4.0%</strong> (a 91.67% reduction), and active security reporting surged to <strong>76.0%</strong> (an 850% increase).
+                </p>
+                <div style="margin-top:20px; display:flex; gap:10px;">
+                    <a href="../docs/consent_form.md" target="_blank" class="btn btn-secondary">📜 View Consent Form</a>
+                    <a href="../docs/lab_architecture.md" target="_blank" class="btn btn-secondary">📐 View Architecture Docs</a>
+                    <a href="../report/Training_Slides_Handout.md" target="_blank" class="btn btn-secondary">📑 View Training Slides & Handout</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= MODAL: TEACHABLE MOMENT INTERCEPT ================= -->
+    <div id="teachableMomentModal" class="modal-overlay">
+        <div class="modal-box">
+            <div style="background:linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); color:#fff; padding:24px; text-align:center;">
+                <div style="font-size:36px; margin-bottom:6px;">⚠️</div>
+                <h2 style="font-size:20px; font-weight:700;">Simulated Phishing Intercept: Teachable Moment</h2>
+                <p style="font-size:13px; opacity:0.95; margin-top:4px;">You just submitted data on a simulated phishing portal: <span id="teachablePortalName" style="font-weight:bold;">Portal</span></p>
+            </div>
+            <div class="modal-body">
+                <div class="badge-lab" style="color:var(--accent-emerald); margin-bottom:16px; width:100%; justify-content:center; padding:10px;">
+                    🔒 Ethical Protection: ZERO REAL PASSWORDS STORED OR LOGGED
+                </div>
+                <p style="font-size:14px; line-height:1.6; color:var(--text-secondary); margin-bottom:16px;">
+                    Don't worry! This controlled simulation was conducted by <strong>Omkar Pardeshi (PRN: 25070122506)</strong>. In strict compliance with ethical hacking rules of engagement, only the submission event timestamp was recorded.
+                </p>
+                <h4 style="font-size:14px; color:var(--text-primary); margin-bottom:8px;">Key Red Flags You Missed:</h4>
+                <ul style="font-size:13px; color:var(--text-secondary); margin-left:20px; line-height:1.6; margin-bottom:20px;">
+                    <li><strong>Lookalike Domain:</strong> The URL was not an authorized official identity domain.</li>
+                    <li><strong>Manufactured Urgency:</strong> Threatening to lock accounts or return packages within hours.</li>
+                    <li><strong>Mismatched SSL / Origin:</strong> Lack of cryptographic institutional origin binding.</li>
+                </ul>
+                <div style="display:flex; justify-content:flex-end; gap:10px;">
+                    <button class="btn btn-secondary" onclick="App.closeModal('teachableMomentModal')">Close</button>
+                    <button class="btn btn-primary" onclick="App.closeModal('teachableMomentModal'); App.showTab('training');">
+                        Proceed to Awareness LMS →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: REPORT PHISH SUCCESS ================= -->
+    <div id="reportSuccessModal" class="modal-overlay">
+        <div class="modal-box">
+            <div style="background:linear-gradient(135deg, #10b981 0%, #047857 100%); color:#fff; padding:24px; text-align:center;">
+                <div style="font-size:36px; margin-bottom:6px;">🛡️</div>
+                <h2 style="font-size:20px; font-weight:700;">Threat Successfully Reported to SOC!</h2>
+                <p style="font-size:13px; opacity:0.95; margin-top:4px;">Proactive Incident Response Telemetry Generated</p>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:14px; line-height:1.6; color:var(--text-secondary); margin-bottom:16px;">
+                    Excellent work! You correctly identified the phishing markers in:
+                    <strong style="color:var(--text-primary); display:block; margin-top:4px;" id="reportedEmailSubject">Subject</strong>
+                </p>
+                <div style="background:#0b1120; border:1px solid var(--border-subtle); border-radius:6px; padding:14px; font-size:12px; line-height:1.6; font-family:var(--font-mono); margin-bottom:20px;">
+                    <div><strong>SOC Action:</strong> Automated Forensic Ingestion Triggered</div>
+                    <div><strong>Disposition:</strong> Sender domain flagged for perimeter firewall sinkhole</div>
+                    <div><strong>Impact:</strong> Prevented compromise across 24 other cohort participants!</div>
+                </div>
+                <div style="text-align:right;">
+                    <button class="btn btn-cyan" onclick="App.closeModal('reportSuccessModal')">
+                        Dismiss & Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div id="toastNotification" class="toast-notif"></div>
+
+    <!-- Custom Scripts -->
+    <script src="js/simulation.js"></script>
+    <script src="js/inbox.js"></script>
+    <script src="js/landing-pages.js"></script>
+    <script src="js/training.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/defensive.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

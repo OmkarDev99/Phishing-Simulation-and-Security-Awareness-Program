@@ -1,0 +1,40 @@
+[
+  {
+    "timestamp": "2026-10-20 14:48:35",
+    "event": "CREDENTIAL_SUBMISSION_INTERCEPT",
+    "target_email": "omkar.pardeshi@lab.internal",
+    "scenario_portal": "Microsoft 365 Domain Single Sign-On",
+    "ip_address": "192.168.56.101 (Isolated Host-Only Lab)",
+    "password_captured": false,
+    "password_policy": "DISCARDED_ZERO_STORAGE_ETHICAL_RULE",
+    "action_taken": "Logged for Metrics & Redirected to Teachable Moment LMS"
+  },
+  {
+    "timestamp": "2026-10-20 14:50:12",
+    "event": "CREDENTIAL_SUBMISSION_INTERCEPT",
+    "target_email": "aarav.sharma@lab.internal",
+    "scenario_portal": "Global Express Address Verification Portal",
+    "ip_address": "192.168.56.102 (Isolated Host-Only Lab)",
+    "password_captured": false,
+    "password_policy": "DISCARDED_ZERO_STORAGE_ETHICAL_RULE",
+    "action_taken": "Logged for Metrics & Redirected to Teachable Moment LMS"
+  },
+  {
+    "timestamp": "2026-10-20 16:01:19",
+    "event": "CREDENTIAL_SUBMISSION_INTERCEPT",
+    "target_email": "test_evaluator@college.edu",
+    "submitted_password_demo": "DemoProfessorPassword2026",
+    "scenario_portal": "Microsoft 365 Domain Single Sign-On",
+    "ip_address": "192.168.56.101 (Isolated Lab Subnet)",
+    "action_taken": "Logged for Demonstration & Redirected to Teachable Moment LMS"
+  },
+  {
+    "timestamp": "2026-10-20 16:04:25",
+    "event": "CREDENTIAL_SUBMISSION_INTERCEPT",
+    "target_email": "student@lab.internal",
+    "submitted_password_demo": "11",
+    "scenario_portal": "Microsoft 365 Domain Single Sign-On",
+    "ip_address": "192.168.56.101 (Isolated Lab Subnet)",
+    "action_taken": "Logged for Demonstration & Redirected to Teachable Moment LMS"
+  }
+]

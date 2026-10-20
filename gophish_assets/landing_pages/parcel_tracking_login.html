@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Express Tracking - Address Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f2f6;
+            margin: 0;
+            padding: 30px 15px;
+            color: #2f3542;
+        }
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .top-bar {
+            background: #4b125f;
+            color: #ffffff;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .badge {
+            background: #ff6200;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .form-area {
+            padding: 28px;
+        }
+        .notice {
+            background: #fff5eb;
+            border-left: 4px solid #ff6200;
+            padding: 12px 14px;
+            margin-bottom: 22px;
+            font-size: 13px;
+            color: #b33900;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #4b5563;
+        }
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #4b125f;
+            outline: none;
+        }
+        .btn-confirm {
+            width: 100%;
+            background: #ff6200;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-confirm:hover {
+            background: #e55800;
+        }
+        .footer {
+            background: #f9fafb;
+            padding: 14px;
+            font-size: 11px;
+            color: #6b7280;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <h2>Global Express Dispatch</h2>
+            <span class="badge">SECURE DISPATCH</span>
+        </div>
+        <div class="form-area">
+            <div class="notice">
+                <strong>Attention Recipient:</strong> Please confirm your delivery address and verification code for shipment <strong>#FX-98214-DEL</strong>.
+            </div>
+            <form action="/landing/educational" method="POST">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" value="{{.FirstName}} {{.LastName}}" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" value="{{.Email}}" required>
+                </div>
+                <div class="form-group">
+                    <label>Complete Delivery Address</label>
+                    <input type="text" name="address" placeholder="House/Flat No, Street, Landmark" required>
+                </div>
+                <div class="form-group">
+                    <label>PIN / Postal Code</label>
+                    <input type="text" name="pincode" placeholder="Postal Code" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Verification PIN / Password</label>
+                    <input type="password" name="password" placeholder="Account Verification Password" required>
+                </div>
+                <button type="submit" class="btn-confirm">Update Address & Dispatch Now</button>
+            </form>
+        </div>
+        <div class="footer">
+            Controlled Academic Phishing Simulation | Zero Real Data Stored | Department of Computer Engineering
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "Local MailHog Lab SMTP",
+  "interface_type": "SMTP",
+  "from_address": "IT Security Helpdesk <it-support@secure-auth.lab>",
+  "host": "192.168.56.20:1025",
+  "username": "",
+  "password": "",
+  "ignore_cert_errors": true,
+  "headers": [
+    {
+      "key": "X-Mailer",
+      "value": "GoPhish-Lab-Simulation-v0.12"
+    },
+    {
+      "key": "X-Simulation-Lab",
+      "value": "Controlled-Academic-Study-PRN25070122506"
+    }
+  ]
+}

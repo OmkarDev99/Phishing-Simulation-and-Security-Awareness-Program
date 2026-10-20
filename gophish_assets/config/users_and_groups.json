@@ -1,0 +1,30 @@
+{
+  "name": "Consenting Student Cohort (Class 2026)",
+  "targets": [
+    {"first_name": "Aarav", "last_name": "Sharma", "email": "aarav.sharma@lab.internal", "position": "Student - CE"},
+    {"first_name": "Aditi", "last_name": "Patil", "email": "aditi.patil@lab.internal", "position": "Student - CE"},
+    {"first_name": "Ananya", "last_name": "Deshmukh", "email": "ananya.deshmukh@lab.internal", "position": "Student - IT"},
+    {"first_name": "Atharva", "last_name": "Joshi", "email": "atharva.joshi@lab.internal", "position": "Student - CE"},
+    {"first_name": "Dev", "last_name": "Kulkarni", "email": "dev.kulkarni@lab.internal", "position": "Student - IT"},
+    {"first_name": "Diya", "last_name": "Mehta", "email": "diya.mehta@lab.internal", "position": "Student - CE"},
+    {"first_name": "Gaurav", "last_name": "Shinde", "email": "gaurav.shinde@lab.internal", "position": "Student - CE"},
+    {"first_name": "Isha", "last_name": "Bhave", "email": "isha.bhave@lab.internal", "position": "Student - IT"},
+    {"first_name": "Kunal", "last_name": "Chavan", "email": "kunal.chavan@lab.internal", "position": "Student - CE"},
+    {"first_name": "Manish", "last_name": "Verma", "email": "manish.verma@lab.internal", "position": "Student - IT"},
+    {"first_name": "Neha", "last_name": "Gupta", "email": "neha.gupta@lab.internal", "position": "Student - CE"},
+    {"first_name": "Nikhil", "last_name": "Bapat", "email": "nikhil.bapat@lab.internal", "position": "Student - CE"},
+    {"first_name": "Omkar", "last_name": "Pardeshi", "email": "omkar.pardeshi@lab.internal", "position": "Lead Researcher"},
+    {"first_name": "Pooja", "last_name": "Rao", "email": "pooja.rao@lab.internal", "position": "Student - IT"},
+    {"first_name": "Pranav", "last_name": "Kale", "email": "pranav.kale@lab.internal", "position": "Student - CE"},
+    {"first_name": "Rahul", "last_name": "Bansal", "email": "rahul.bansal@lab.internal", "position": "Student - IT"},
+    {"first_name": "Riya", "last_name": "Shah", "email": "riya.shah@lab.internal", "position": "Student - CE"},
+    {"first_name": "Rohan", "last_name": "Mane", "email": "rohan.mane@lab.internal", "position": "Student - CE"},
+    {"first_name": "Sakshi", "last_name": "Gaikwad", "email": "sakshi.gaikwad@lab.internal", "position": "Student - IT"},
+    {"first_name": "Sameer", "last_name": "Wagh", "email": "sameer.wagh@lab.internal", "position": "Student - CE"},
+    {"first_name": "Siddharth", "last_name": "Nair", "email": "siddharth.nair@lab.internal", "position": "Student - CE"},
+    {"first_name": "Sneha", "last_name": "More", "email": "sneha.more@lab.internal", "position": "Student - IT"},
+    {"first_name": "Tanvi", "last_name": "Gore", "email": "tanvi.gore@lab.internal", "position": "Student - CE"},
+    {"first_name": "Varun", "last_name": "Dixit", "email": "varun.dixit@lab.internal", "position": "Student - IT"},
+    {"first_name": "Yash", "last_name": "Sawant", "email": "yash.sawant@lab.internal", "position": "Student - CE"}
+  ]
+}

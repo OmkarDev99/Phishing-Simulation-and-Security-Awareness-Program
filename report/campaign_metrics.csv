@@ -1,0 +1,26 @@
+Participant_ID,Name,Email,Department,C1_Sent,C1_Opened,C1_Clicked,C1_Submitted,C1_Reported,Training_Completed,Quiz_Score_10,Certified,C2_Sent,C2_Opened,C2_Clicked,C2_Submitted,C2_Reported
+USR-01,Aarav Sharma,aarav.sharma@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,9,Yes,Yes,Yes,No,No,Yes
+USR-02,Aditi Patil,aditi.patil@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,8,Yes,Yes,Yes,No,No,Yes
+USR-03,Ananya Deshmukh,ananya.deshmukh@lab.internal,Information Technology,Yes,Yes,No,No,Yes,Yes,10,Yes,Yes,Yes,No,No,Yes
+USR-04,Atharva Joshi,atharva.joshi@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,9,Yes,Yes,Yes,No,No,Yes
+USR-05,Dev Kulkarni,dev.kulkarni@lab.internal,Information Technology,Yes,Yes,Yes,No,No,Yes,8,Yes,Yes,Yes,No,No,Yes
+USR-06,Diya Mehta,diya.mehta@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,7,Yes,Yes,Yes,Yes,No,No
+USR-07,Gaurav Shinde,gaurav.shinde@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,9,Yes,Yes,Yes,No,No,Yes
+USR-08,Isha Bhave,isha.bhave@lab.internal,Information Technology,Yes,Yes,No,No,No,Yes,10,Yes,Yes,Yes,No,No,Yes
+USR-09,Kunal Chavan,kunal.chavan@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,8,Yes,Yes,Yes,No,No,Yes
+USR-10,Manish Verma,manish.verma@lab.internal,Information Technology,Yes,Yes,Yes,Yes,No,Yes,8,Yes,Yes,Yes,No,No,Yes
+USR-11,Neha Gupta,neha.gupta@lab.internal,Computer Engineering,Yes,Yes,No,No,Yes,Yes,10,Yes,Yes,Yes,No,No,Yes
+USR-12,Nikhil Bapat,nikhil.bapat@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,9,Yes,Yes,Yes,No,No,Yes
+USR-13,Omkar Pardeshi,omkar.pardeshi@lab.internal,Lead Researcher,Yes,Yes,No,No,Yes,Yes,10,Yes,Yes,Yes,No,No,Yes
+USR-14,Pooja Rao,pooja.rao@lab.internal,Information Technology,Yes,Yes,Yes,No,No,Yes,9,Yes,Yes,Yes,No,No,Yes
+USR-15,Pranav Kale,pranav.kale@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,8,Yes,Yes,Yes,No,No,Yes
+USR-16,Rahul Bansal,rahul.bansal@lab.internal,Information Technology,Yes,Yes,Yes,Yes,No,Yes,7,Yes,Yes,Yes,Yes,Yes,No
+USR-17,Riya Shah,riya.shah@lab.internal,Computer Engineering,Yes,Yes,No,No,No,Yes,9,Yes,Yes,Yes,No,No,Yes
+USR-18,Rohan Mane,rohan.mane@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,8,Yes,Yes,No,No,No,No
+USR-19,Sakshi Gaikwad,sakshi.gaikwad@lab.internal,Information Technology,Yes,Yes,No,No,No,Yes,10,Yes,Yes,Yes,No,No,Yes
+USR-20,Sameer Wagh,sameer.wagh@lab.internal,Computer Engineering,Yes,Yes,Yes,No,No,Yes,9,Yes,Yes,Yes,No,No,Yes
+USR-21,Siddharth Nair,siddharth.nair@lab.internal,Computer Engineering,Yes,Yes,Yes,Yes,No,Yes,9,Yes,Yes,Yes,No,No,Yes
+USR-22,Sneha More,sneha.more@lab.internal,Information Technology,Yes,Yes,No,No,No,Yes,10,Yes,Yes,Yes,No,No,Yes
+USR-23,Tanvi Gore,tanvi.gore@lab.internal,Computer Engineering,Yes,Yes,Yes,No,No,Yes,9,Yes,Yes,Yes,No,No,Yes
+USR-24,Varun Dixit,varun.dixit@lab.internal,Information Technology,Yes,No,No,No,No,Yes,8,Yes,Yes,No,No,No,No
+USR-25,Yash Sawant,yash.sawant@lab.internal,Computer Engineering,Yes,No,No,No,No,Yes,9,Yes,Yes,Yes,Yes,No,No
